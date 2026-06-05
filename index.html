@@ -3,22 +3,37 @@
 <meta charset="utf-8">
 <body>
     <h2>开发者：郑泽琳  学号：423830229</h2>
-    <h3>AI智能对话助手</h3>
+    <h3>AI智能对话助手（可智能回答）</h3>
 
-    <input type="text" id="msg" placeholder="输入问题" style="width:350px;height:32px;font-size:16px;">
-    <button onclick="askAI()" style="height:36px;cursor:pointer;">发送提问</button>
+    <input type="text" id="msg" style="width: 500px; height: 35px; font-size: 16px;" placeholder="输入你要问AI的问题...">
+    <button onclick="sendToAI()" style="height: 40px; cursor: pointer;">发送给AI</button>
 
-    <div style="margin-top:20px;padding:15px;border:1px solid #ccc;width:500px;min-height:120px;">
+    <div style="margin-top:20px; padding:15px; border:1px solid #ccc; width:500px; min-height:150px; white-space: pre-wrap;">
+        <strong>AI 回复：</strong><br>
         <span id="result"></span>
     </div>
 
     <script>
-        //作业可调参数
-        let temp = 0.7;
-        async function askAI() {
-            let text = document.getElementById("msg").value;
-            document.getElementById("result").innerText = "AI思考中...";
-            document.getElementById("result").innerText = `当前参数temp=${temp}，AI回复：${text}`;
+        async function sendToAI() {
+            let question = document.getElementById("msg").value;
+            let result = document.getElementById("result");
+
+            result.innerText = "AI思考中...";
+
+            try {
+                let response = await fetch("https://api.muxixyz.com/api/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        prompt: question
+                    })
+                });
+
+                let data = await response.json();
+                result.innerText = data.reply || "AI回答失败";
+            } catch (e) {
+                result.innerText = "AI服务繁忙，重试一下~";
+            }
         }
     </script>
 </body>
