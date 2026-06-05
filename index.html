@@ -1,38 +1,35 @@
 <!DOCTYPE html>
-<html>
-<meta charset="utf-8">
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>AI对话助手</title>
+    
+    <script src="https://js.puter.com/v2/"></script>
+</head>
 <body>
     <h2>开发者：郑泽琳  学号：423830229</h2>
-    <h3>AI智能对话助手（可智能回答）</h3>
-
-    <input type="text" id="msg" style="width: 500px; height: 35px; font-size: 16px;" placeholder="输入你要问AI的问题...">
-    <button onclick="sendToAI()" style="height: 40px; cursor: pointer;">发送给AI</button>
-
-    <div style="margin-top:20px; padding:15px; border:1px solid #ccc; width:500px; min-height:150px; white-space: pre-wrap;">
-        <strong>AI 回复：</strong><br>
-        <span id="result"></span>
+    <h3>真实大模型对话 </h3>
+    <div>
+        <input type="text" id="userInput" style="width:520px;height:38px;font-size:16px;" placeholder="输入问题">
+        <button onclick="chatAI()" style="height:42px;font-size:15px;">发送</button>
     </div>
-
+    <div style="margin-top:20px;padding:16px;border:1px solid #999;width:540px;min-height:180px;white-space:pre-wrap;">
+        <strong>AI回复：</strong><br>
+        <span id="aiRes">等待提问...</span>
+    </div>
     <script>
-        async function sendToAI() {
-            let question = document.getElementById("msg").value;
-            let result = document.getElementById("result");
-
-            result.innerText = "AI思考中...";
-
-            try {
-                let response = await fetch("https://api.muxixyz.com/api/chat", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        prompt: question
-                    })
-                });
-
-                let data = await response.json();
-                result.innerText = data.reply || "AI回答失败";
-            } catch (e) {
-                result.innerText = "AI服务繁忙，重试一下~";
+        
+        let temp = 0.7;
+        async function chatAI(){
+            let question = document.getElementById("userInput").value.trim();
+            let resDom = document.getElementById("aiRes");
+            if(!question){resDom.innerText="请输入内容";return;}
+            resDom.innerText = "AI思考中...";
+            try{
+                let ans = await puter.ai.chat(question,{temperature:temp});
+                resDom.innerText = `temp参数=${temp}\n${ans}`;
+            }catch(err){
+                resDom.innerText="服务短暂繁忙，重新发送即可";
             }
         }
     </script>
