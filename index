@@ -13,12 +13,12 @@
     </div>
 
     <script>
-        //可调优化参数
+        //作业可调参数
         let temp = 0.7;
         async function askAI() {
             let text = document.getElementById("msg").value;
             document.getElementById("result").innerText = "AI思考中...";
-            document.getElementById("result").innerText = `当前参数temp=${temp}，AI回复内容：${text}`;
+            document.getElementById("result").innerText = `当前参数temp=${temp}，AI回复：${text}`;
         }
     </script>
 </body>
