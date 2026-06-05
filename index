@@ -5,16 +5,21 @@
     <h2>开发者：郑泽琳  学号：423830229</h2>
     <h3>AI智能对话助手</h3>
 
-    <input type="text" id="msg" placeholder="输入问题">
-    <button onclick="askAI()">发送</button>
+    <input type="text" id="msg" placeholder="输入问题" style="width:350px;height:32px;font-size:16px;">
+    <button onclick="askAI()" style="height:36px;cursor:pointer;">发送提问</button>
 
-    <p id="result"></p>
+    <div style="margin-top:20px;padding:15px;border:1px solid #ccc;width:500px;min-height:120px;">
+        <span id="result"></span>
+    </div>
 
     <script>
+        //作业可调参数：修改数字完成优化
+        let temp = 0.7;
         async function askAI() {
             let text = document.getElementById("msg").value;
             document.getElementById("result").innerText = "AI思考中...";
-            document.getElementById("result").innerText = "AI回复：" + text + "（已调用AI接口）";
+            //模拟AI返回，展示参数变化
+            document.getElementById("result").innerText = `当前AI创意参数temp=${temp}，AI回复：${text}`;
         }
     </script>
 </body>
